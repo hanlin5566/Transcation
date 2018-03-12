@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.DictTermBeanMapper">
+	<select id="SelectAll" resultType="com.wiitrans.base.db.model.DictTermBean">
+		select term_id,pair_id,industry_id,term,update_time 
+		from dict_term 
+		order by pair_id,industry_id asc
+	</select>
+	<select id="SelectForUpdateTime" resultType="com.wiitrans.base.db.model.DictTermBean">
+		select term_id,pair_id,industry_id,term,update_time 
+		from dict_term 
+		where pair_id = #{0} AND industry_id = #{1} AND update_time > #{2}
+		order by pair_id,industry_id asc
+	</select>
+	<select id="SelectForUpdateTimeOnPair" resultType="com.wiitrans.base.db.model.DictTermBean">
+		SELECT dt.term_id,dt.pair_id,dt.industry_id,dt.term,dt.update_time 
+		FROM dict_term dt
+		INNER JOIN dict_term_details dtd ON dtd.term_id = dt.term_id AND dt.pair_id = #{0} AND dtd.update_time > #{1}
+		ORDER BY dt.pair_id,dt.industry_id ASC
+	</select>
+</mapper>

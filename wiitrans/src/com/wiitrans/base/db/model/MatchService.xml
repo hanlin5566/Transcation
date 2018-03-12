@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.MatchServiceMapper">
+	<update id="ImportOrderKeyword" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} INTO TABLE keyword_order(`order_id`,`translator_id`,`pair_id`,`keyword`,`score`);
+	</update>
+	<update id="DeleteNewOrderKeyword" parameterType="int">
+		DELETE FROM keyword_neworder WHERE order_id = #{order_id} ;
+	</update>
+	<update id="ImportNewOrderKeyword" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} INTO TABLE keyword_neworder(`order_id`,`pair_id`,`keyword`,`count`);
+	</update>
+
+	<update id="DeleteNoOrderKeyword" parameterType="String">
+		DELETE FROM keyword_noorder WHERE java_id = #{java_id} ;
+	</update>
+	<update id="ImportNoOrderKeyword" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} INTO TABLE keyword_noorder(`java_id`,`pair_id`,`keyword`,`count`);
+	</update>
+	<update id="AddKeywordScore" parameterType="Map">
+		CALL AddOrderScore(#{order_id});
+	</update>
+	<select id="SelectTopTrans" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count)  
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_neworder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.order_id = #{order_id} 
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND tgn.grade_id >= #{price_level_id}
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id
+		GROUP BY kt.translator_id
+		ORDER BY score DESC LIMIT 5;
+	</select>
+	<select id="SelectTopEdits" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count)  
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_neworder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.order_id = #{order_id} 
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND tgn.grade_id >= #{price_level_id}
+			AND tgn.editor = 1
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id
+		GROUP BY kt.translator_id
+		ORDER BY score DESC LIMIT 5;
+	</select>
+	<select id="SelectTrans" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count)  
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_neworder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.order_id = #{order_id} 
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+			AND kt.translator_id IN 
+		<foreach item="item" index="index" collection="translatorIDs" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND tgn.editor = 1
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id;
+	</select>
+	<select id="SelectTopTransByJavaID" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count) 
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_noorder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.java_id = #{java_id}
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND tgn.grade_id >= #{price_level_id}
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id
+		GROUP BY kt.translator_id
+		ORDER BY score DESC LIMIT 5;
+	</select>
+	<select id="SelectTopEditsByJavaID" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count) 
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_noorder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.java_id = #{java_id}
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND tgn.grade_id >= #{price_level_id}
+			AND tgn.editor = 1
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id
+		GROUP BY kt.translator_id
+		ORDER BY score DESC LIMIT 5;
+	</select>
+	<select id="SelectTransByJavaID" resultType="com.wiitrans.base.db.model.TransScoreBean" parameterType="Map">
+		SELECT kt.translator_id,SUM(kt.score * kn.count)  
+			+ #{experience_a} * td.experience + #{experience_b}
+			+ #{word_count_a} * td.word_count + #{word_count_b}
+			+ #{order_number_a} * td.order_number + #{order_number_b}
+			score
+		FROM keyword_noorder kn
+		INNER JOIN keyword_trans kt 
+			ON kn.java_id = #{java_id}
+			AND kn.pair_id = kt.pair_id
+			AND kn.keyword = kt.keyword
+			AND kt.translator_id IN 
+		<foreach item="item" index="index" collection="translatorIDs" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		INNER JOIN trans_grade_new tgn 
+			ON kt.pair_id = tgn.pair_id
+			AND tgn.industry_id = #{industry_id}
+			AND kt.translator_id = tgn.translator_id
+		INNER JOIN translator_details td 
+			ON td.translator_id = kt.translator_id;
+	</select>
+</mapper>

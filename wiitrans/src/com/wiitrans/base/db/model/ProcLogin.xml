@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.ProcLoginMapper">
+	<select id="Login" parameterType="int" resultType="Integer">
+		{CALL
+		pr_jstate_login(#{order_id})}
+	</select>
+	
+	
+	<select id="getSysMsgCount" parameterType="int" resultType="Integer">
+		SELECT 
+			(SELECT COUNT(*)
+			FROM `message_all_details` 
+			WHERE `user_id` = #{user_id} 
+			AND `read` = 0)
+			+
+			(SELECT COUNT(*) 
+			FROM `message_user` 
+			WHERE `user_id` = #{user_id} 
+			AND `read` = 0)
+			+
+			(SELECT COUNT(*) 
+			FROM `node_message_user` 
+			WHERE `user_id` = #{user_id} 
+			AND `read` = 0) msgcount;
+		
+	</select>
+	
+	
+	
+</mapper>

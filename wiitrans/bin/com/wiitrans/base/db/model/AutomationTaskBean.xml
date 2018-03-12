@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.AutomationTaskBeanMapper">
+	
+	
+	<insert id="insert" parameterType="com.wiitrans.base.db.model.AutomationTaskBean" useGeneratedKeys="true" keyProperty="task_id" >
+		INSERT INTO
+		auto_task(task_id,job_class,corn,param,status,type,remaker,create_time) 
+		VALUES(#{task_id},#{job_class},#{corn},#{param},#{status},#{type},#{remaker},unix_timestamp(now()))
+	</insert>
+	
+	<select id="selectTask" parameterType="Map" resultType="com.wiitrans.base.db.model.AutomationTaskBean">
+		SELECT task_id,job_class,corn,param,status,type,remaker,create_time FROM auto_task WHERE deleted = 0
+		<if	test="task_id != null and task_id != ''">
+			AND task_id = #{task_id}
+		</if>
+		<if	test="status != null and status != ''">
+			AND
+			status = #{status}
+		</if>
+		<if	test="type != null and type != ''">
+			AND
+			type = #{type}
+		</if>
+	</select>
+	
+	<select id="getAutomationTaskBean" parameterType="com.wiitrans.base.db.model.AutomationTaskBean" resultType="com.wiitrans.base.db.model.AutomationTaskBean">
+		SELECT task_id,job_class,corn,param,status,type,remaker,create_time FROM auto_task WHERE 0 = 0
+		<if	test="task_id != null and task_id != ''">
+			AND task_id = #{task_id}
+		</if>
+		<if	test="status != null and status != ''">
+			AND
+			status = #{status}
+		</if>
+		<if	test="type != null and type != ''">
+			AND
+			type = #{type}
+		</if>
+		<if	test="deleted != null and deleted != ''">
+			AND
+			type = #{deleted}
+		</if>
+	</select>
+	
+	
+	<update id="updateTask" parameterType="com.wiitrans.base.db.model.AutomationTaskBean">
+		UPDATE auto_task SET status = #{status},remaker = #{remaker}
+		WHERE task_id = #{task_id}
+	</update>
+	
+</mapper>

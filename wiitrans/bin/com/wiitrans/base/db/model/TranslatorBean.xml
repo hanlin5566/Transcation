@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.TranslatorBeanMapper">
+
+	<select id="Select" parameterType="int"
+		resultType="com.wiitrans.base.db.model.TranslatorBean">
+		SELECT u.user_id,u.nickname,u.account,
+			td.translator_id,td.level_id,td.experience,
+			td.money,td.aggregate_money,
+			td.money_usd,td.aggregate_money_usd,
+			td.money_eur,td.aggregate_money_eur,
+			td.word_count,td.normal_order_number,td.total_order_number,td.create_time
+		FROM user u
+		INNER JOIN translator_details td ON u.user_id = td.translator_id
+		WHERE u.user_id=#{uid};
+	</select>
+
+	<select id="SelectAll" resultType="com.wiitrans.base.db.model.TranslatorBean">
+		select user_id,nickname,account from user order by	user_id asc
+	</select>
+	<select id="SelectInternal" resultType="com.wiitrans.base.db.model.TranslatorBean">
+		select user_id,nickname,account from user WHERE
+		internal = 1 order by user_id asc
+	</select>
+	
+	<select id="SelectUserId" parameterType="com.wiitrans.base.db.model.TranslatorBean" resultType="com.wiitrans.base.db.model.TranslatorBean">
+		select nickname from user WHERE
+		user_id = #{user_id}
+	</select>
+	
+	<select id="SelectUserIds" resultType="com.wiitrans.base.db.model.TranslatorBean">
+		select user_id,nickname from user WHERE
+		user_id in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		UNION
+		select user_id,nickname from node_user WHERE
+		user_id in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<insert id="Insert" parameterType="com.wiitrans.base.db.model.TranslatorBean">
+		insert into
+		user(user_id,nickname,account) values(#{uid},#{nickname},#{account})
+	</insert>
+
+	<update id="Update" parameterType="com.wiitrans.base.db.model.TranslatorBean">
+		update user set
+		user_id=#{uid},nickname=#{nickname},account=#{account} where
+		user_id=#{uid}
+	</update>
+
+	<delete id="Delete" parameterType="int">
+		delete from user where
+		user_id=#{uid}
+	</delete>
+
+
+</mapper>

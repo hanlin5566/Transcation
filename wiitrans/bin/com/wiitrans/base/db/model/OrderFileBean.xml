@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.OrderFileBeanMapper">
+	<select id="Select" resultType="com.wiitrans.base.db.model.OrderFileBean">
+		SELECT file_id,order_id,source_file_id,b_file_id,preprocess_file_id,trans_file_id,edit_file_id,tmx_file_id,status,analyse
+		FROM `order_file` WHERE file_id = #{file_id} LIMIT 1;
+	</select>
+	<select id="SelectForNode" resultType="com.wiitrans.base.db.model.OrderFileBean">
+		SELECT file_id,node_id,order_id,source_file_id,b_file_id,preprocess_file_id,trans_file_id,edit_file_id,tmx_file_id,status,analyse
+		FROM `node_order_file` WHERE node_id = #{0} AND file_id = #{1} LIMIT 1;
+	</select>
+	<select id="SelectByOrderID" resultType="com.wiitrans.base.db.model.OrderFileBean">
+		SELECT file_id,order_id,source_file_id,b_file_id,preprocess_file_id,trans_file_id,edit_file_id,tmx_file_id,status,analyse
+		FROM `order_file` WHERE order_id = #{order_id};
+	</select>
+	<select id="SelectByOrderIDForNode" resultType="com.wiitrans.base.db.model.OrderFileBean">
+		SELECT file_id,node_id,order_id,source_file_id,b_file_id,preprocess_file_id,trans_file_id,edit_file_id,tmx_file_id,status,analyse
+		FROM `node_order_file` WHERE node_id = #{0} AND order_id = #{1};
+	</select>
+	<update id="UpdateWordCount" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET finished_word_count_t = #{finished_word_count_t},
+			finished_word_count_e = #{finished_word_count_e}
+		WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateWordCountForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET finished_word_count_t = #{finished_word_count_t},
+			finished_word_count_e = #{finished_word_count_e}
+		WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	<update id="UpdatePreview" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET preview = #{preview} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdatePreviewForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET preview = #{preview} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	<update id="UpdateEditScore" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET edit_score = #{edit_score} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateEditScoreForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET edit_score = #{edit_score} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+
+	<update id="UpdateBiliFile" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET b_file_id = #{b_file_id} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateBiliFileForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET b_file_id = #{b_file_id} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	<update id="UpdatePreprocessFile" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET preprocess_file_id = #{preprocess_file_id} 
+		WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdatePreprocessFileForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET preprocess_file_id = #{preprocess_file_id} 
+		WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	<update id="UpdateTransFile" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET trans_file_id = #{trans_file_id} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateTransFileForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET trans_file_id = #{trans_file_id} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	<update id="UpdateEditFile" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET edit_file_id = #{edit_file_id} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateEditFileForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET edit_file_id = #{edit_file_id} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+	
+	<update id="UpdateTmxFile" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `order_file`
+		SET tmx_file_id = #{tmx_file_id} WHERE file_id = #{file_id}
+	</update>
+	<update id="UpdateTmxFileForNode" parameterType="com.wiitrans.base.db.model.OrderFileBean">
+		UPDATE `node_order_file`
+		SET tmx_file_id = #{tmx_file_id} WHERE file_id = #{file_id} AND node_id = #{node_id}
+	</update>
+</mapper>

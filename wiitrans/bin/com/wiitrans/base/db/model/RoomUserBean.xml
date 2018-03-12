@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.RoomUserBeanMapper">
+
+	<update id="updateConnectTime" parameterType="com.wiitrans.base.db.model.RoomUserBean">
+		UPDATE `room_user`
+		SET
+		<if	test="connect_time != null and connect_time != 0">
+			connect_time = #{connect_time}
+		</if>
+		<if	test="disconnect_time != null and disconnect_time != 0">
+			disconnect_time = #{disconnect_time}
+		</if>
+		WHERE user_id = #{user_id}
+		AND room_id = #{room_id}
+	</update>
+	
+	<update id="updateNodeConnectTime" parameterType="com.wiitrans.base.db.model.RoomUserBean">
+		UPDATE `node_room_user`
+		SET
+		<if	test="connect_time != null and connect_time != 0">
+			connect_time = #{connect_time}
+		</if>
+		<if	test="disconnect_time != null and disconnect_time != 0">
+			disconnect_time = #{disconnect_time}
+		</if>
+		WHERE user_id = #{user_id}
+		AND room_id = #{room_id}
+	</update>
+	<!--  userGeneratedKeys="true" keyProperty="room_user_id"  -->
+	
+	<insert id="insert" parameterType="com.wiitrans.base.db.model.RoomUserBean" useGeneratedKeys="true" keyProperty="room_id">
+		INSERT INTO
+		room_user(room_id,user_id,connect_time,disconnect_time) VALUES(#{room_id},#{user_id},#{connect_time},#{disconnect_time})
+	</insert>
+	
+	<select id="selectRoomUser" parameterType="com.wiitrans.base.db.model.RoomUserBean" resultType="com.wiitrans.base.db.model.RoomUserBean">
+		
+		SELECT room_user_id,room_id,user_id,connect_time,disconnect_time FROM room_user WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND room_id = #{room_id}
+		</if>
+		<if	test="user_id != null and user_id != ''">
+			AND
+			user_id = #{user_id}
+		</if>
+		UNION
+		SELECT room_user_id,room_id,user_id,connect_time,disconnect_time FROM node_room_user WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND room_id = #{room_id}
+		</if>
+		<if	test="user_id != null and user_id != ''">
+			AND
+			user_id = #{user_id}
+		</if>
+	</select>
+	
+	<select id="selectRoomUserList" parameterType="com.wiitrans.base.db.model.RoomUserBean" resultType="com.wiitrans.base.db.model.RoomUserBean">
+		
+		SELECT room_user_id,room_id,user_id,connect_time,disconnect_time FROM room_user WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND 
+			room_id = #{room_id}
+		</if>
+		<if	test="user_id != null and user_id != ''">
+			AND
+			user_id = #{user_id}
+		</if>
+		UNION
+		SELECT room_user_id,room_id,user_id,connect_time,disconnect_time FROM node_room_user WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND 
+			room_id = #{room_id}
+		</if>
+		<if	test="user_id != null and user_id != ''">
+			AND
+			user_id = #{user_id}
+		</if>
+	</select>
+	
+</mapper>

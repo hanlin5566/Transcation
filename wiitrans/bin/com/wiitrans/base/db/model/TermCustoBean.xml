@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.TermCustoBeanMapper">
+	<select id="SelectForUpdateTime" resultType="com.wiitrans.base.db.model.TermCustoBean">
+		SELECT * FROM
+		`term_custo` WHERE term_group_id =
+		#{0} AND update_time > #{1};
+	</select>
+</mapper>

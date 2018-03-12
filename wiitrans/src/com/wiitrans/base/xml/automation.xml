@@ -1,0 +1,12 @@
+<bundle name="autoTopo" type="class" localcluster="true" debug="false">
+	<classpath url="/root/wiitrans/AutomationBundle/bin" />
+	<jarpath url="file:/opt/wiitrans/bundle/automation.jar" />
+	<classname url="com.wiitrans.automation.bundle.Bundle" />
+	<spout count="1" />
+	<bolt name="check" count="1" />
+	<bolt name="execute" count="1" />
+	<bolt name="report" count="1" />
+	<worker num="2" />
+	<tempfilepath url="/root/Desktop/automation/" />
+	<tmsvr api="http://192.168.9.204:10000/service/tmsvr/analysis"/>
+</bundle>

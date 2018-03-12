@@ -1,0 +1,273 @@
+<sync-datas>
+	<sync-data name="setTransFileID" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+                SET `b_file_id` = '${b_file_id}',`trans_file_id` = '${trans_file_id}',`trans_file_name` = '${trans_file_name}',finished_word_count_t = ${finished_word_count_t},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`trans_file_id`,`trans_file_name`,`finished_word_count_t`,`status`,#{nid} as 'node_id'
+            FROM `order_file`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="setNodeTransFileID" >
+		<targets>
+			<target>
+				UPDATE `order_file`
+                SET `b_file_id` = '${b_file_id}',`trans_file_id` = '${trans_file_id}',`trans_file_name` = '${trans_file_name}',finished_word_count_t = ${finished_word_count_t},`status` = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`trans_file_id`,`trans_file_name`,`finished_word_count_t`,`status`
+            FROM `node_order_file`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="setEditFileID" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+                SET `b_file_id` = '${b_file_id}',`edit_file_id` = '${edit_file_id}',`edit_file_name` = '${edit_file_name}',`edit_score` = ${edit_score},finished_word_count_e = ${finished_word_count_e},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`edit_file_id`,`edit_file_name`,`edit_score`,`finished_word_count_e`,`status`,#{nid} as 'node_id'
+            FROM `order_file`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="setNodeEditFileID" >
+		<targets>
+			<target>
+				UPDATE `order_file`
+                SET `b_file_id` = '${b_file_id}',`edit_file_id` = '${edit_file_id}',`edit_file_name` = '${edit_file_name}',`edit_score` = ${edit_score},finished_word_count_e = ${finished_word_count_e},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`edit_file_id`,`edit_file_name`,`edit_score`,`finished_word_count_e`,`status`
+            FROM `node_order_file`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateTransFileID" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+                SET `b_file_id` = '${b_file_id}',`trans_file_id` = '${trans_file_id}',finished_word_count_t = ${finished_word_count_t},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`trans_file_id`,`finished_word_count_t`,`status`,#{nid} as 'node_id'
+            FROM `order_file`
+            WHERE file_id = #{file_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateNodeTransFileID" >
+		<targets>
+			<target>
+				UPDATE `order_file`
+                SET `b_file_id` = '${b_file_id}',`trans_file_id` = '${trans_file_id}',finished_word_count_t = ${finished_word_count_t},`status` = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`trans_file_id`,`finished_word_count_t`,`status`
+            FROM `node_order_file`
+            WHERE file_id = #{file_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateEditFileID" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+                SET `b_file_id` = '${b_file_id}',`edit_file_id` = '${edit_file_id}',`edit_score` = ${edit_score},finished_word_count_e = ${finished_word_count_e},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`edit_file_id`,`edit_score`,`finished_word_count_e`,`status`,#{nid} as 'node_id'
+            FROM `order_file`
+            WHERE file_id = #{file_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateNodeEditFileID" >
+		<targets>
+			<target>
+				UPDATE `order_file`
+                SET `b_file_id` = '${b_file_id}',`edit_file_id` = '${edit_file_id}',`edit_score` = ${edit_score},finished_word_count_e = ${finished_word_count_e},status = ${status}
+                WHERE file_id = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`b_file_id`,`edit_file_id`,`edit_score`,`finished_word_count_e`,`status`
+            FROM `node_order_file`
+            WHERE file_id = #{file_id};
+		</source>
+	</sync-data>
+	<sync-data name="confirmOrder" >
+		<targets>
+			<target>
+				UPDATE `node_order`
+				SET `valid_word_count_t` = ${valid_word_count_t},
+					`valid_word_count_e` = ${valid_word_count_e},
+					`actual_money_t` = ${actual_money_t},
+	    			`actual_money_e` = ${actual_money_e},
+    				`confirmation_time` = ${confirmation_time}
+				WHERE `order_id` = ${order_id}
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`valid_word_count_t`,`valid_word_count_e`,`actual_money_t`,`actual_money_e`,`confirmation_time`,#{nid} as 'node_id'
+			FROM `order`
+			WHERE `order_id` = #{order_id}
+		</source>
+	</sync-data>
+	<sync-data name="confirmOrderFile" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+				SET `status` = ${status}
+				WHERE `file_id` = ${file_id}
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`status`,#{nid} as 'node_id'
+			FROM `order_file`
+			WHERE `order_id` = #{order_id}
+		</source>
+	</sync-data>
+	<sync-data name="updateCustomerEvalution" >
+		<targets>
+			<target>
+				INSERT INTO `order_evalution`(order_id,customer,translator)
+				VALUES(${order_id},'${customer}','')
+                ON DUPLICATE KEY UPDATE customer = '${customer}';
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`customer`,#{nid} as 'node_id'
+            FROM `order_evalution`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateTranslatorEvalution" >
+		<targets>
+			<target>
+				INSERT INTO `order_evalution`(order_id,customer,translator)
+				VALUES(${order_id},'','${translator}')
+                ON DUPLICATE KEY UPDATE translator = '${translator}';
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`translator`,#{nid} as 'node_id'
+            FROM `order_evalution`
+            WHERE order_id = #{order_id};
+		</source>
+	</sync-data>
+	<sync-data name="updateCustomerEvalutions" >
+		<targets>
+			<target>
+				INSERT INTO `order_customer_evalution`(order_id,evalution_id,evalution,create_time)
+				VALUES(${order_id},${evalution_id},${evalution},unix_timestamp(now()))
+                ON DUPLICATE KEY UPDATE evalution = '${evalution}';
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`evalution_id`,`evalution`,#{nid} as 'node_id'
+            FROM `order_customer_evalution`
+            WHERE order_id = #{order_id} AND evalution_id IN (1,2,3,5);
+		</source>
+	</sync-data>
+	<sync-data name="updateTranslatorEvalutions" >
+		<targets>
+			<target>
+				INSERT INTO `order_translator_evalution`(order_id,evalution_id,evalution,create_time)
+				VALUES(${order_id},${evalution_id},${evalution},unix_timestamp(now()))
+                ON DUPLICATE KEY UPDATE evalution = '${evalution}';
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`evalution_id`,`evalution`,#{nid} as 'node_id'
+            FROM `order_translator_evalution`
+            WHERE order_id = #{order_id} AND evalution_id = 4;
+		</source>
+	</sync-data>
+	<sync-data name="updatePreprocess" >
+		<targets>
+			<target>
+				UPDATE `node_order_file`
+				SET `preprocess_file_id` = '${preprocess_file_id}'
+				WHERE `file_id` = ${file_id}
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`file_id`,`preprocess_file_id`,#{nid} as 'node_id'
+			FROM `order_file`
+			WHERE `order_id` = #{order_id}
+		</source>
+	</sync-data>
+	<sync-data name="synTM" >
+		<targets>
+			<target>
+			    INSERT INTO `node_tm`(`tm_id`,`node_id`,`custo_id`,`industry_id`,`pair_id`,`lang_country_id`,`name`,`tmx_file_id`,`create_time`,`analyse`)
+			    VALUES(${tm_id},${node_id},${custo_id},${industry_id},${pair_id},${lang_country_id},'${name}','${tmx_file_id}',${create_time},0)
+			    ON DUPLICATE KEY 
+				UPDATE `tmx_file_id` = '${tmx_file_id}',`analyse` = 0;
+			</target>			
+		</targets>
+		<source>
+			SELECT `tm_id`,`custo_id`,`industry_id`,`pair_id`,`lang_country_id`,`name`,`tmx_file_id`,`create_time`,#{nid} as 'node_id'
+			FROM `tm`
+			WHERE `tm_id` = #{tm_id}
+		</source>
+	</sync-data>
+	<sync-data name="synTMX" >
+		<targets>
+			<target>
+			    UPDATE `node_order_file`
+			    SET `tmx_file_id` = '${tmx_file_id}'
+			    WHERE `file_id` = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `file_id`,`tmx_file_id`,#{nid} as 'node_id'
+			FROM `order_file`
+			WHERE `file_id` = #{file_id}
+		</source>
+	</sync-data>
+	<sync-data name="synNodeTMX" >
+		<targets>
+			<target>
+			    UPDATE `order_file`
+			    SET `tmx_file_id` = '${tmx_file_id}'
+			    WHERE `file_id` = ${file_id};
+			</target>			
+		</targets>
+		<source>
+			SELECT `file_id`,`tmx_file_id`,#{nid} as 'node_id'
+			FROM `node_order_file`
+			WHERE `file_id` = #{file_id}
+		</source>
+	</sync-data>
+	<sync-data name="updateOrderActualMoney" >
+		<targets>
+			<target>
+				UPDATE `node_order`
+				SET `actual_money_t` = ${actual_money_t},`actual_money_e` = ${actual_money_e}
+				WHERE `order_id` = ${order_id}
+			</target>			
+		</targets>
+		<source>
+			SELECT `order_id`,`actual_money_t`,`actual_money_e`,#{nid} as 'node_id'
+			FROM `order`
+			WHERE `order_id` = #{order_id}
+		</source>
+	</sync-data>
+</sync-datas>

@@ -1,0 +1,6 @@
+<reqs>
+	<!-- 
+	 <req id="-1" name="syncUserState" className="com.wiitrans.automation.quartz.job.RequestJob" url="http://192.168.9.204:10000/service/state/online" param="{sid:'translator-sessionid2', uid:'2',method:'GET'}" req_type="http" cron="0 0/5 * * * ?"/>
+	 -->
+	 <req id="-1" name="delTimeoutExam" className="com.wiitrans.automation.quartz.job.RequestJob" url="http://192.168.9.204:10000/service/exam/deleteExam" param="{sid:'translator-sessionid2', uid:'2',method:'POST'}" req_type="http" cron="0 0 1 * * ?"/>
+</reqs>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.JudgeBeanMapper">
+	<select id="getKnownJudge" parameterType="Map"
+		resultType="com.wiitrans.base.db.model.JudgeBean">
+		SELECT judge_id,pair_id,industry_id FROM ques_judge as ju ,
+		ques_subjective as sub WHERE ju.subjective_id = sub.subjective_id AND
+		sub.pair_id = #{pair_id} AND sub.industry_id = #{industry_id} ORDER BY
+		RAND() LIMIT #{limit}
+	</select>
+	
+	<insert id="movetoKnownJudge" parameterType="Map" useGeneratedKeys="true" keyProperty="judge_id">
+		INSERT INTO ques_judge(subjective_id,answer,judge) SELECT subjective_id,answer, #{judge} as judge FROM ques_strategy WHERE  strategy_id = #{strategy_id}
+	</insert>
+</mapper>

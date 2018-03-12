@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.DictLangPairBeanMapper">
+	<select id="SelectAll" resultType="com.wiitrans.base.db.model.DictLangPairBean">
+		select * from dict_language
+		order by language_id asc
+	</select>
+	<select id="Select" resultType="com.wiitrans.base.db.model.DictLangPairBean">
+		SELECT a.pair_id,b.language_id source_lang_id,b.class_name
+		source_class_name,c.language_id target_lang_id,c.class_name
+		target_class_name
+		FROM dict_language_pair a
+		INNER JOIN dict_language b ON a.source_lang = b.language_id AND a.pair_id =
+		#{pair_id}
+		INNER JOIN dict_language c ON a.target_lang = c.language_id
+	</select>
+	<select id="SelectAllPair" resultType="com.wiitrans.base.db.model.DictLangPairBean">
+		SELECT a.pair_id,b.language_id source_lang_id,b.class_name
+		source_class_name,c.language_id target_lang_id,c.class_name
+		target_class_name
+		FROM dict_language_pair a
+		INNER JOIN dict_language b ON a.source_lang = b.language_id
+		INNER JOIN dict_language c ON a.target_lang = c.language_id
+
+	</select>
+</mapper>

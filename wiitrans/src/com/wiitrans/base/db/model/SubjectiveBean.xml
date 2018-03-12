@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.SubjectiveBeanMapper">
+	<select id="getSubjective" parameterType="map" resultType="com.wiitrans.base.db.model.SubjectiveBean">
+		SELECT subjective_id,pair_id,industry_id FROM ques_subjective WHERE 
+		pair_id = #{pair_id} AND industry_id = #{industry_id} ORDER BY
+		RAND() LIMIT #{limit} 
+	</select>
+	
+	<delete id="deleteUnFinishedSubjectiveAnswer" parameterType="int">
+		DELETE FROM trans_test_answer WHERE test_ques_id IN (SELECT test_ques_id FROM trans_test_question WHERE test_id = #{exam_id})
+	</delete>
+	
+	<update id="evalSubjective">
+		UPDATE trans_test_question SET score = (CASE WHEN 1 = #{judge} THEN 20 ELSE 0 END) 
+		WHERE test_ques_id = (SELECT test_ques_id FROM ques_strategy_mapping WHERE strategy_id = #{strategy_id}  AND `type` = 1)
+	</update>
+</mapper>

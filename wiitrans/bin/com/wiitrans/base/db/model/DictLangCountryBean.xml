@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.DictLangCountryBeanMapper">
+	<select id="Select" resultType="com.wiitrans.base.db.model.DictLangCountryBean"
+		parameterType="String">
+		SELECT `lang_id`,`lang_country`,`sort_id`
+		FROM `dict_language_country`
+		WHERE `lang_country` = #{lang_country};
+	</select>
+</mapper>

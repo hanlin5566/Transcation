@@ -1,0 +1,10 @@
+<bundle name="tmTopo" type="class" localcluster="true" debug="false">
+	<classpath url="/root/wiitrans/TMBundle/bin" />
+	<jarpath url="file:/opt/wiitrans/bundle/tm.jar" />
+	<classname url="com.wiitrans.tm.bundle.Bundle" />
+	<spout count="1" />
+	<bolt name="analysis" count="2" />
+	<worker num="1" />
+	<tempfilepath url="/root/Desktop/tm/" />
+	<levenshtein value="true" />
+</bundle>

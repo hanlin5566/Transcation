@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.TMServiceMapper">
+	<update id="DropTMIndexIfExists" parameterType="Map">
+		DROP TABLE IF
+		EXISTS ${tableName};
+	</update>
+	<update id="CreateTMIndex" parameterType="Map">
+		CREATE TABLE
+		${tableName} (
+		`id` int(11) NOT NULL AUTO_INCREMENT,
+		`tu_id` int(11) NOT
+		NULL,
+		`word_id` bigint(20) NOT NULL,
+		PRIMARY KEY (`id`),
+		KEY `word_index`
+		(`word_id`,`tu_id`),
+		KEY `tu_index` (`tu_id`)
+		) ENGINE=InnoDB DEFAULT
+		CHARSET=utf8;
+	</update>
+	<update id="DropTMWordIfExists" parameterType="Map">
+		DROP TABLE IF
+		EXISTS ${tableName};
+	</update>
+	<update id="CreateTMWord" parameterType="Map">
+		CREATE TABLE
+		${tableName} (
+		`id` int(11) NOT NULL AUTO_INCREMENT,
+		`word_id`
+		bigint(20) NOT NULL,
+		`word` varchar(45) NOT NULL,
+		PRIMARY KEY (`id`),
+		UNIQUE KEY `index_unique` (`word_id`,`word`)
+		) ENGINE=InnoDB DEFAULT
+		CHARSET=utf8;
+	</update>
+	<update id="DropTMTimeIfExists" parameterType="Map">
+		DROP TABLE IF
+		EXISTS ${tableName};
+	</update>
+	<update id="CreateTMTime" parameterType="Map">
+		CREATE TABLE
+		${tableName} (
+		`word_id` bigint(20) NOT NULL,
+		`times` int(11) NOT NULL,
+		PRIMARY KEY (`word_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	</update>
+	<update id="DropTMTextIfExists" parameterType="Map">
+		DROP TABLE IF
+		EXISTS ${tableName};
+	</update>
+	<update id="CreateTMText" parameterType="Map">
+		CREATE TABLE
+		${tableName} (
+		`tu_id` int(11) NOT NULL,
+		`scode` int NOT NULL,
+		`tcode` int NOT NULL,
+		`source` varchar(4000) NOT NULL,
+		`target` varchar(4000) NOT NULL,
+		PRIMARY KEY (`tu_id`),
+		KEY `index_text` (`scode`,`tcode`)
+		)
+		ENGINE=InnoDB
+		DEFAULT CHARSET=utf8;
+	</update>
+	<update id="ImportIndex" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} INTO TABLE ${tableName}(tu_id,word_id);
+	</update>
+	<update id="ImportText" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} INTO TABLE ${tableName}(tu_id,scode,tcode,source,target);
+	</update>
+	<update id="ImportTime" parameterType="Map">
+		INSERT INTO	${timesTableName}(word_id,times)
+		SELECT word_id,COUNT(DISTINCT tu_id) cnt
+		FROM ${indexTableName}
+		GROUP BY word_id;
+	</update>
+	<update id="ImportWord" parameterType="Map">
+		LOAD DATA LOCAL INFILE
+		#{fileName} IGNORE INTO TABLE ${tableName}(word_id,word);
+	</update>
+	<select id="SelectTimes" resultType="com.wiitrans.base.db.model.TMServiceTimesBean"
+		parameterType="Map">
+		SELECT word_id,times
+		FROM ${tableName};
+	</select>
+	<select id="SelectIndexByWordIDs" resultType="com.wiitrans.base.db.model.TMServiceIndexBean"
+		parameterType="Map">
+		SELECT DISTINCT word_id,tu_id
+		FROM ${tableName}
+		WHERE word_id IN
+		<foreach item="item" index="index" collection="wordIDs" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER BY word_id ASC;
+	</select>
+	<select id="SelectIndexByTuIDs" resultType="com.wiitrans.base.db.model.TMServiceIndexBean"
+		parameterType="Map">
+		SELECT tu_id,word_id
+		FROM ${tableName}
+		WHERE tu_id IN
+		<foreach item="item" index="index" collection="tuIDs" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER BY tu_id,id ASC;
+	</select>
+	<select id="SelectTextByTuIDs" resultType="com.wiitrans.base.db.model.TMServiceTextBean"
+		parameterType="Map">
+		SELECT tu_id,source,target
+		FROM ${tableName}
+		WHERE tu_id IN
+		<foreach item="item" index="index" collection="tuIDs" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER BY tu_id ASC;
+	</select>
+	<select id="SelectTextByCHNWordIDs" resultType="com.wiitrans.base.db.model.TMServiceTextBean"
+		parameterType="Map">
+		call SearchTM(#{tmid},#{wordidsstr});
+	</select>
+
+	<select id="SelectTextMaxID" resultType="int" parameterType="Map">
+		SELECT MAX(tu_id)
+		FROM ${tableName};
+	</select>
+	<update id="TruncateTime" parameterType="Map">
+		TRUNCATE TABLE ${timesTableName};
+	</update>
+	<select id="CleanUpTM" parameterType="Map">
+		call CleanUpTM(#{tmid},#{langtype});
+	</select>
+</mapper>

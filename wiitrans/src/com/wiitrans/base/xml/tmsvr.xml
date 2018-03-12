@@ -1,0 +1,9 @@
+<bundle name="tmsvrTopo" type="class" localcluster="true" debug="false">
+	<classpath url="/root/wiitrans/TMSvrBundle/bin" />
+	<jarpath url="file:/opt/wiitrans/bundle/tmsvr.jar" />
+	<classname url="com.wiitrans.tmsvr.bundle.Bundle" />
+	<tempfilepath url="/root/Desktop/tmsvr/" />
+	<levenshtein value="true" />
+	<tmsvrmybatis value="/opt/wiitrans/conf/mybatis-configtm.xml" />
+	<exec command="java -jar /opt/wiitrans/service/tmsvr.jar %d %d %s" />
+</bundle>

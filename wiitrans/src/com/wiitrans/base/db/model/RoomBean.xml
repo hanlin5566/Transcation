@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.RoomBeanMapper">
+	
+	
+	<insert id="insert" parameterType="com.wiitrans.base.db.model.RoomBean" useGeneratedKeys="true" keyProperty="room_id" >
+		INSERT INTO
+		room(order_id,name,create_time) VALUES(#{order_id},#{name},unix_timestamp(now()))
+	</insert>
+	
+	<select id="selectRoom" parameterType="Map" resultType="com.wiitrans.base.db.model.RoomBean">
+		SELECT room_id,order_id,`name`,create_time
+			FROM room r
+				WHERE order_id = #{order_id}
+				AND (SELECT COUNT(r.room_id) FROM room_user WHERE room_id = r.room_id) = #{user_count}
+				AND (SELECT COUNT(r.room_id) FROM room_user WHERE room_id = r.room_id AND user_id IN 
+				<foreach item="item" index="index" collection="user_ids" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+				) = #{user_count}
+				
+		UNION
+		SELECT room_id,order_id,`name`,create_time
+		FROM node_room r
+			WHERE order_id = #{order_id}
+			AND (SELECT COUNT(r.room_id) FROM node_room_user WHERE room_id = r.room_id) = #{user_count}
+			AND (SELECT COUNT(r.room_id) FROM node_room_user WHERE room_id = r.room_id AND user_id IN 
+			<foreach item="item" index="index" collection="user_ids" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+			) = #{user_count}
+	</select>
+	
+	<select id="selectRoomByRoom" parameterType="com.wiitrans.base.db.model.RoomBean" resultType="com.wiitrans.base.db.model.RoomBean">
+		
+		SELECT room_id,order_id,name,create_time FROM room WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND room_id = #{room_id}
+		</if>
+		<if	test="order_id != null and order_id != ''">
+			AND order_id = #{order_id}
+		</if>
+		<if	test="name != null and name != ''">
+			AND name = #{name}
+		</if>
+		<if	test="create_time != null and create_time != ''">
+			AND create_time = #{create_time}
+		</if>
+		UNION
+		SELECT room_id,order_id,name,create_time FROM node_room WHERE 1=1
+		<if	test="room_id != null and room_id != ''">
+			AND room_id = #{room_id}
+		</if>
+		<if	test="order_id != null and order_id != ''">
+			AND order_id = #{order_id}
+		</if>
+		<if	test="name != null and name != ''">
+			AND name = #{name}
+		</if>
+		<if	test="create_time != null and create_time != ''">
+			AND create_time = #{create_time}
+		</if>
+	</select>
+</mapper>

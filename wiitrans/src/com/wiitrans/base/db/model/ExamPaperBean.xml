@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.ExamPaperBeanMapper">
+	<insert id="insertExamPaper" parameterType="com.wiitrans.base.db.model.ExamPaperBean"
+		useGeneratedKeys="true" keyProperty="test_id">
+		INSERT INTO
+		trans_test(translator_id,pair_id,industry_id,times,create_time)
+		VALUES(#{translator_id},#{pair_id},#{industry_id},1,unix_timestamp(now()))
+	</insert>
+
+	<update id="updateExamPaperScore" parameterType="int">
+		UPDATE
+		trans_test set score = (SELECT SUM(score) FROM trans_test_question q
+		GROUP BY test_id HAVING test_id = #{test_id}) WHERE test_id =
+		#{test_id}
+	</update>
+
+	<update id="updateAutoExamPaperScore" parameterType="int">
+		UPDATE
+		trans_test a
+		INNER JOIN (
+		SELECT test_id,SUM(CASE WHEN score &lt; 0 THEN
+		0 ELSE score END) score
+		FROM trans_test_question WHERE test_id IN
+		(
+		SELECT test_id FROM trans_test_question WHERE
+		question_id = #{strategy_id} AND
+		`type` = 2
+		OR
+		question_id = (SELECT subjective_id FROM ques_strategy
+		WHERE strategy_id = #{strategy_id}) AND
+		`type` = 3
+		)
+		GROUP BY test_id
+		) b ON a.test_id
+		= b.test_id
+		SET a.score = b.score
+	</update>
+
+	<update id="updateAutoExamPaperStatus" parameterType="int">
+		UPDATE
+		trans_test a
+		INNER JOIN (
+		SELECT test_id,COUNT(test_id) doneCount
+		FROM trans_test_question WHERE test_id IN
+		(
+		SELECT test_id FROM trans_test_question WHERE
+		question_id = #{strategy_id} AND `type` = 2
+		OR
+		test_ques_id = (SELECT test_ques_id FROM trans_test_answer WHERE strategy_id = #{strategy_id}) AND
+		`type` = 3
+		) AND score &gt; -1 GROUP BY test_id
+		) b ON a.test_id = b.test_id AND b.doneCount &gt;=10 AND a.`status` = 12
+		SET a.`status` = (CASE WHEN a.score &gt;= 80 THEN 13 ELSE 14 END)
+
+	</update>
+
+	<select id="selectExamMonthTimes" parameterType="com.wiitrans.base.db.model.ExamPaperBean"
+		resultType="int">
+		SELECT count(translator_id) FROM trans_test 
+			WHERE translator_id = #{translator_id} 
+			AND pair_id = #{pair_id} 
+			AND (`status` != 13 OR `status` != 15)
+			AND (CASE WHEN `status` = 11 THEN create_time &lt; (unix_timestamp(now()) - 30*60) ELSE 1=1 END)
+			AND FROM_UNIXTIME(create_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+	</select>
+	
+	<select id="selectExamMonthTimesMsg" parameterType="com.wiitrans.base.db.model.ExamPaperBean"
+		resultType="map">
+			SELECT t.translator_id,t.pair_id,
+			(SELECT cname FROM dict_language WHERE language_id = source_lang) as source_lange,
+			(SELECT cname FROM dict_language WHERE language_id = target_lang) as target_lang,
+			(SELECT cname FROM dict_industry WHERE industry_id = (SELECT industry_id FROM trans_test tt WHERE tt.test_id = #{test_id})) as industry_name,
+			count(translator_id) as times FROM trans_test t
+			INNER JOIN dict_language_pair p ON t.pair_id = p.pair_id 
+			WHERE t.translator_id =  #{translator_id}
+			AND t.pair_id = #{pair_id} 
+			AND (`status` != 13 OR `status` != 15)
+			AND (CASE WHEN `status` = 11 THEN create_time &lt; (unix_timestamp(now()) - 30*60) ELSE 1=1 END)
+			AND FROM_UNIXTIME(create_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+	</select>
+	
+	<select id="selectUnFinishedExamPaper" parameterType="com.wiitrans.base.db.model.ExamPaperBean"
+		resultType="com.wiitrans.base.db.model.ExamPaperBean">
+		SELECT
+		test_id,translator_id,pair_id,industry_id,score,step,times,`status`,create_time
+		FROM trans_test WHERE translator_id = #{translator_id} AND
+		pair_id = #{pair_id} AND
+		industry_id = #{industry_id} AND `status` = 11
+	</select>
+	
+	<select id="selectAllUnFinishedExamPaper" resultType="com.wiitrans.base.db.model.ExamPaperBean">
+		SELECT
+		test_id,translator_id,pair_id,industry_id,score,step,times,`status`,create_time
+		FROM trans_test WHERE `status` = 11
+		AND (CASE WHEN `status` = 11 THEN create_time &lt; (unix_timestamp(now()) - 30*60) ELSE 1=1 END)
+	</select>
+
+	<update id="deleteUnFinishedExamPaper" parameterType="int">
+		UPDATE trans_test
+		SET `status` = 21 WHERE test_id = #{exam_id}
+	</update>
+</mapper>

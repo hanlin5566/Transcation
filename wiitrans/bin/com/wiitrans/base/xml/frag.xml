@@ -1,0 +1,12 @@
+<bundle name="fragTopo" type="class" localcluster="true" debug="false">
+	<classpath url="/root/wiitrans/FragmentationBundle/bin" />
+	<jarpath url="file:/opt/wiitrans/bundle/frag.jar" />
+	<classname url="com.wiitrans.frag.bundle.Bundle" />
+	<spout count="1" />
+	<bolt name="fragSentence" count="2" />
+	<bolt name="learn" count="1" />
+	<worker num="2" />
+	<tempfilepath url="/root/Desktop/frag/" />
+	<checkword value="true" />
+	<learn name="iciba" key="EB791462F3C4EE0D4649FE4B37B26126" url="http://dict-co.iciba.com/api/dictionary.php"/>
+</bundle>

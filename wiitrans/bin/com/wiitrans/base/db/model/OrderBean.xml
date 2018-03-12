@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.OrderBeanMapper">
+
+	<select id="SelectOrdersByStatus" resultType="com.wiitrans.base.db.model.OrderBean">
+		SELECT order_id,pair_id,industry_id,translator_id,editor_id,customer_id,price_level_id,code,status,create_time,expected_delivery_time,need_time,payment_time,preprocess,match_type
+			,CASE WHEN match_type BETWEEN 4 AND 6 THEN (
+						SELECT GROUP_CONCAT(translator_id) 
+						FROM order_recom 
+						WHERE order_id = o.order_id 
+						AND type = 1
+					) ELSE '' END recom_t
+			,CASE WHEN match_type = 6 THEN (
+						SELECT GROUP_CONCAT(translator_id) 
+						FROM order_recom 
+						WHERE order_id = o.order_id 
+						AND type = 2
+					) ELSE '' END recom_e
+		FROM `order` o
+		WHERE status = 20
+		AND (translator_id = 0 OR editor_id = 0
+		AND price_level_id > 1) 
+		ORDER BY order_id ASC;
+	</select>
+	<select id="SelectReservedOrder" resultType="com.wiitrans.base.db.model.OrderBean">
+	SELECT `code`,translator_id,editor_id
+		FROM `order` o
+		WHERE status = 20
+		AND (translator_id != 0 OR editor_id != 0)
+	</select>
+	
+	<select id="SelectUserPayment" parameterType="int" resultType="java.util.HashMap">
+		SELECT o.order_id,o.create_time,o.code,a.language_name as s_language_name,b.language_name as t_language_name,o.word_count,pl.level,o.total_money,i.industry_name,d.description,u.email,o.expected_delivery_time_t,o.expected_delivery_time_e
+		FROM `order` o
+		INNER JOIN `dict_language_pair` p ON o.pair_id = p.pair_id AND o.order_id = #{order_id} 
+		LEFT OUTER JOIN `dict_language` a ON a.language_id = p.source_lang
+		LEFT OUTER JOIN `dict_language` b ON b.language_id = p.target_lang
+		LEFT OUTER JOIN `dict_price_level` pl ON pl.price_level_id = o.price_level_id
+		LEFT OUTER JOIN `dict_industry` i ON i.industry_id = o.industry_id
+		LEFT OUTER JOIN `order_description` d ON d.order_id = o.order_id
+		LEFT OUTER JOIN `user` u ON u.user_id = o.customer_id LIMIT 1;
+	</select>
+	
+	<select id="SelectPersonnalQuotationOrder" parameterType="string" resultType="java.util.HashMap">
+		SELECT o.create_time,o.code,a.language_name,b.language_name,pl.level,i.industry_name,d.description,u.email
+		FROM `order_temp` o 
+		INNER JOIN `dict_language_pair` p ON o.pair_id = p.pair_id AND o.code = #{order_id} 
+		LEFT OUTER JOIN `dict_language` a ON a.language_id = p.source_lang
+		LEFT OUTER JOIN `dict_language` b ON b.language_id = p.target_lang
+		LEFT OUTER JOIN `dict_price_level` pl ON pl.price_level_id = o.price_level_id
+		LEFT OUTER JOIN `dict_industry` i ON i.industry_id = o.industry_id
+		LEFT OUTER JOIN `order_description` d ON d.order_id = o.order_id
+		LEFT OUTER JOIN `user` u ON u.user_id = o.customer_id LIMIT 1;
+	</select>
+	
+	
+	<select id="Select" resultType="com.wiitrans.base.db.model.OrderBean">
+		SELECT order_id,IFNULL((SELECT node_id FROM dict_node WHERE `default` = 1),1) node_id,pair_id,industry_id,tnid,translator_id,enid,editor_id,customer_id,price_level_id,code,status,create_time,currency_id,expected_delivery_time,need_time,payment_time,actual_money_t,actual_money_e,preprocess
+		FROM `order` WHERE code = #{code} LIMIT 1;
+	</select>
+	<select id="SelectForNode" resultType="com.wiitrans.base.db.model.OrderBean">
+		SELECT order_id,IFNULL((SELECT node_id FROM dict_node WHERE `default` = 1),1) node_id,pair_id,industry_id,tnid,translator_id,enid,editor_id,customer_id,price_level_id,code,status,create_time,currency_id,expected_delivery_time,payment_time,actual_money_t,actual_money_e
+		FROM `node_order` WHERE code = #{code} LIMIT 1;
+	</select>
+	<select id="SelectByID" resultType="com.wiitrans.base.db.model.OrderBean">
+		SELECT
+		order_id,pair_id,industry_id,tnid,translator_id,enid,editor_id,customer_id,price_level_id,code,status,create_time,expected_delivery_time,need_time,payment_time,preprocess,currency_id,total_money,actual_money_t,actual_money_e,word_count,tm_id,add_recom_score
+		FROM `order` WHERE order_id = #{order_id} LIMIT 1;
+	</select>
+	<update id="UpdateWordCount" parameterType="int">
+		UPDATE `order`
+		SET	valid_word_count_t = 
+		(
+			SELECT SUM(finished_word_count_t) 
+			FROM `order_file` 
+			WHERE order_id = #{order_id}
+		)
+		,valid_word_count_e = 
+		(
+			SELECT SUM(finished_word_count_e) 
+			FROM `order_file` 
+			WHERE order_id = #{order_id}
+		)
+		WHERE order_id = #{order_id}
+	</update>
+	<update id="UpdateWordCountForNode">
+		UPDATE `node_order`
+		SET	valid_word_count_t = 
+		(
+			SELECT SUM(finished_word_count_t) 
+			FROM `node_order_file` 
+			WHERE order_id = #{1} AND node_id = #{0}
+		)
+		,valid_word_count_e = 
+		(
+			SELECT SUM(finished_word_count_e) 
+			FROM `node_order_file` 
+			WHERE order_id = #{1} AND node_id = #{0}
+		)
+		WHERE order_id = #{1} AND node_id = #{0}
+	</update>
+	<update id="UpdateExpectedDeliveryTime" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE
+		`order`
+		a,`order_search` b SET a.expected_delivery_time =
+		#{expected_delivery_time},b.delivery_time = #{expected_delivery_time}
+		WHERE a.code =
+		#{code} AND a.order_id = b.order_id
+	</update>
+	<update id="UpdateGetTimeT" parameterType="int">
+		UPDATE `order` a,`order_search` b 
+		SET a.get_time_t = unix_timestamp(now()),b.get_time = unix_timestamp(now())
+		WHERE a.order_id = #{order_id} AND a.order_id = b.order_id AND b.type IN(1,2)
+	</update>
+	<update id="UpdateGetTimeE" parameterType="int">
+		UPDATE `order` a,`order_search` b 
+		SET a.get_time_e = unix_timestamp(now()),b.get_time = unix_timestamp(now())
+		WHERE a.order_id = #{order_id} AND a.order_id = b.order_id AND b.type = 3
+	</update>
+	<update id="UpdatePreprocess" parameterType="int">
+		UPDATE `order` SET
+		preprocess = 1 WHERE order_id = #{order_id}
+	</update>
+	<update id="UpdateTrans" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE `order` a,`order_search` b 
+		SET a.translator_id = #{translator_id},b.translator_id = #{translator_id}, 
+			a.tnid = #{tnid}
+		WHERE a.code = #{code} AND a.order_id = b.order_id AND b.type IN (1,2)
+		AND a.translator_id = 0 AND b.translator_id = 0 AND a.tnid = 0
+	</update>
+	<update id="UpdateEditor" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE `order` a,`order_search` b 
+		SET a.editor_id = #{editor_id},b.translator_id = #{editor_id}, 
+			a.enid = #{enid}
+		WHERE a.code = #{code} AND a.order_id = b.order_id AND b.type = 3
+		AND a.editor_id = 0 AND b.translator_id = 0 AND a.enid = 0
+	</update>
+	<update id="UpdateStatus" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE `order` a,`order_search` b 
+		SET a.status = #{status},b.status = #{status}
+		WHERE a.code = #{code} AND a.order_id = b.order_id
+	</update>
+	<update id="UpdateStatusForNode" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE `node_order` a,`order_search` b 
+		SET a.status = #{status},b.status = #{status}
+		WHERE a.code = #{code} AND a.order_id = b.order_id
+	</update>
+	<update id="UpdateFileStatus" parameterType="int">
+		UPDATE `order_file`
+		SET status = 20 WHERE order_id = #{order_id} AND status = 10
+	</update>
+	<update id="UpdateAddRecomScore" parameterType="com.wiitrans.base.db.model.OrderBean">
+		UPDATE `order` SET
+		add_recom_score = 1 WHERE order_id = #{order_id};
+	</update>
+	
+	
+	<select id="SelectStayOrdersByTransLator" resultType="map" parameterType="map">
+		SELECT `code`,'m' as node FROM `order` as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND price_level_id &lt;= #{grade_id} AND translator_id = 0 AND `status` = 20 AND match_type = 0
+		UNION
+		SELECT `code`,'m' as node FROM `order` as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND price_level_id &lt;= #{grade_id} AND translator_id = 0 AND `status` = 20 
+		AND match_type = 4 AND exists(SELECT order_id FROM order_recom  WHERE order_id = o.order_id AND translator_id = #{translator_id})
+		UNION
+		SELECT `code`,node_id as node FROM node_order as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND price_level_id &lt;= #{grade_id} AND translator_id = 0 AND `status` = 20 AND match_type = 0
+		
+	</select>
+	
+	<select id="SelectStayOrdersByEditor" resultType="map" parameterType="map">
+		SELECT `code`,'m' as node FROM `order` as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND CASE WHEN #{grade_id} = 2 THEN price_level_id = 2 WHEN #{grade_id} = 3 THEN price_level_id BETWEEN 2 AND 3 END
+		AND editor_id = 0 AND `status` = 20 AND match_type = 0
+		UNION
+		SELECT `code`,'m' as node FROM `order` as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND CASE WHEN #{grade_id} = 2 THEN price_level_id = 2 WHEN #{grade_id} = 3 THEN price_level_id BETWEEN 2 AND 3 END
+		AND editor_id = 0 AND `status` = 20 
+		AND match_type BETWEEN 5 AND 6 AND exists(SELECT order_id FROM order_recom  WHERE order_id = o.order_id AND translator_id = #{translator_id})
+		UNION
+		SELECT `code`,node_id as node FROM node_order as o where pair_id = #{pair_id} AND industry_id IN 
+		<foreach item="item" index="index" collection="industry_id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND CASE WHEN #{grade_id} = 2 THEN price_level_id = 2 WHEN #{grade_id} = 3 THEN price_level_id BETWEEN 2 AND 3 END 
+		AND editor_id = 0 AND `status` = 20 AND match_type = 0
+	</select>
+	
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wiitrans.base.db.model.StrategyBeanMapper">
+	<select id="getUnknownJudge" parameterType="Map"
+		resultType="com.wiitrans.base.db.model.StrategyBean">
+		<!-- SELECT st.strategy_id,sub.pair_id,sub.industry_id,count(map.strategy_id) 
+			as voteCount FROM ques_strategy as st , ques_subjective as sub , ques_strategy_mapping 
+			as map WHERE st.subjective_id = sub.subjective_id AND st.strategy_id = map.strategy_id 
+			AND sub.subjective_id = map.strategy_id AND map.`type` = 2 AND sub.pair_id 
+			= #{pair_id} AND sub.industry_id = #{industry_id} AND st.strategy_id IN (SELECT 
+			question_id FROM trans_test_question q WHERE `type` = 2 group by question_id 
+			HAVING COUNT(question_id) &lt;= #{max} ) GROUP BY map.strategy_id order by 
+			voteCount desc,RAND() LIMIT #{limit} -->
+		<!-- SELECT st.strategy_id,sub.pair_id,sub.industry_id FROM ques_strategy 
+			as st , ques_subjective as sub WHERE st.subjective_id = sub.subjective_id 
+			ORDER BY RAND() LIMIT 2 -->
+		SELECT st.strategy_id,st.auto_judge ,testCount,voteCount
+		FROM (
+		SELECT strategy_id,auto_judge,subjective_id,create_time,
+		(
+			SELECT count(*)
+			FROM trans_test_question
+			WHERE `type` = 2
+			AND question_id = t.strategy_id
+		) testCount
+		,(
+			SELECT count(*)
+			FROM ques_strategy_mapping
+			WHERE `type` = 2
+			AND strategy_id = t.strategy_id
+		) voteCount
+		FROM ques_strategy t
+		) st,ques_subjective as sub
+		WHERE st.testCount &lt; #{max}
+		AND st.subjective_id = sub.subjective_id
+		AND sub.pair_id = #{pair_id}
+		AND st.auto_judge = 0
+		AND sub.industry_id = #{industry_id}
+		ORDER BY st.voteCount DESC,st.create_time ASC LIMIT #{limit}
+	</select>
+
+	<delete id="deleteUnFinishedJudgeVote" parameterType="int">
+		DELETE FROM
+		ques_strategy_mapping WHERE test_ques_id IN (SELECT test_ques_id FROM
+		trans_test_question WHERE test_id = #{exam_id})
+	</delete>
+
+	<update id="evalJudge">
+		UPDATE trans_test_question SET score = (CASE WHEN judge = #{judge} THEN 5 ELSE 0 END)
+		WHERE question_id = #{strategy_id} AND `type` = 2 AND judge != 0
+		<if test="test_ques_id != null and test_ques_id != 0">
+			AND test_ques_id = #{test_ques_id}
+		</if>
+	</update>
+
+	<update id="updateAutoJudge" parameterType="int">
+		UPDATE ques_strategy
+		SET auto_judge = 1 ,judge_time = unix_timestamp(now()) WHERE
+		strategy_id = #{strategy_id}
+	</update>
+	
+	<delete id="deleteUnknowJudge" parameterType="int">
+		DELETE FROM ques_strategy WHERE strategy_id = #{strategy_id}
+	</delete>
+</mapper>
+
