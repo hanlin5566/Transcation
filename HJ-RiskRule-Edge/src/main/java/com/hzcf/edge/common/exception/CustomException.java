@@ -7,7 +7,11 @@ import com.hzcf.edge.common.enums.ResponseEnums;
  */
 public class CustomException extends RuntimeException{
 
-    private String message;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String message;
     private ResponseEnums code;
 
     public CustomException (String message)

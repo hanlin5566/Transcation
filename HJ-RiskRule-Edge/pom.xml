@@ -39,7 +39,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<!-- MySql数据库驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -52,14 +52,14 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.5</version>
 		</dependency>
-		
-		<!-- 添加redis支持-->
+
+		<!-- 添加redis支持 -->
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>${redis.version}</version>
 		</dependency>
-		
+
 		<!-- rabbitmq -->
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
@@ -77,7 +77,13 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
@@ -100,7 +106,7 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-ribbon</artifactId>
@@ -175,6 +181,13 @@
 		<dependency>
 			<groupId>com.hzcf</groupId>
 			<artifactId>HJ-MS-Common</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- 服务接口 -->
+		<dependency>
+			<groupId>com.hzcf</groupId>
+			<artifactId>HJ-ServiceInterface</artifactId>
 			<version>1.0</version>
 		</dependency>
 
