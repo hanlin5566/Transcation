@@ -156,6 +156,17 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
+		
+		<!-- 链路监控sheuth -->
+		<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
 
 		<!-- springboot 单元测试 -->
 		<dependency>
@@ -232,7 +243,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.hzcf.variable.VariableBootStarp</mainClass>
+							<mainClass>com.hzcf.edge.RiskRuleEdgeApplication</mainClass>
 						</manifest>
 					</archive>
 
