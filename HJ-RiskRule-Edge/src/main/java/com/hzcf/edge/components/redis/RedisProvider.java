@@ -10,7 +10,7 @@ import java.util.List;
 public class RedisProvider {
 
     //redis 前缀
-    private final static String prefix="HJ-DATA-API-";
+    private final static String prefix="HJ-RiskRule-Edge-";
 
     public static void set(String key,String value)
     {

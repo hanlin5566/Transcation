@@ -1,5 +1,7 @@
 package com.hzcf.edge.common.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +14,9 @@ import javax.persistence.Table;
  */
 @Table(name="api_users")
 @Entity
-public class UserEntity{
+public class UserEntity implements Serializable{
+	private static final long serialVersionUID = -8657785860287768665L;
+	
 	@Id
     @GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer id;
