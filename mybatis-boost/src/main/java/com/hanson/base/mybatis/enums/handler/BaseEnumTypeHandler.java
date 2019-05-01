@@ -12,7 +12,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hzcf.base.enums.EnumType;
+import com.hanson.base.enums.EnumType;
 
 
 /**

@@ -1,5 +1,6 @@
 package com.hanson.base.mybatis.config;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -12,8 +13,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.hanson.base.enums.EnumType;
 import com.hanson.base.mybatis.enums.handler.EnumTypeHandler;
 import com.hanson.base.mybatis.pagination.helper.PaginationInterceptor;
+import com.hanson.base.util.ClassUtils;
 
 /**
  * Create by hanlin on 2019年1月28日
@@ -33,6 +36,8 @@ public class MyBatisConfig {
 		TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration().getTypeHandlerRegistry();
 		// 注册默认枚举转换器
 		typeHandlerRegistry.setDefaultEnumTypeHandler(EnumTypeHandler.class);
+		final List<Class<?>> allAssignedClass = ClassUtils.getAllAssignedClass(EnumType.class);
+		allAssignedClass.forEach((clazz) -> typeHandlerRegistry.register(clazz, EnumTypeHandler.class));
 
 		return sqlSessionFactory;
 	}

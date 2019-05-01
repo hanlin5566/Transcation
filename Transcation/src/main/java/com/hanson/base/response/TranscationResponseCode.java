@@ -6,7 +6,7 @@ import com.hzcf.base.enums.IResponseCode;
  * Create by hanlin on 2018年10月11日
  **/
 
-public enum EdgeResponseCode implements IResponseCode {
+public enum TranscationResponseCode implements IResponseCode {
 	PARAM_ERROR(200001, "参数解析异常,请检查参数。","参数解析异常,请检查参数。"),
 	AES_DECRYPT_ERROR(200002, "AES解密异常。","AES解密异常,密文"),
 	AES_ENCRYPT_ERROR(200003, "AES加密异常。","AES加密发生异常"),
@@ -34,13 +34,13 @@ public enum EdgeResponseCode implements IResponseCode {
 	private final String friendlyMsg;
 	private final String detailMsg;
 
-	private EdgeResponseCode(int code, String friendlyMsg) {
+	private TranscationResponseCode(int code, String friendlyMsg) {
 		this.code = code;
 		this.friendlyMsg = friendlyMsg;
 		this.detailMsg = friendlyMsg;
 	}
 
-	private EdgeResponseCode(int code, String friendlyMsg, String detailMsg) {
+	private TranscationResponseCode(int code, String friendlyMsg, String detailMsg) {
 		this.code = code;
 		this.friendlyMsg = friendlyMsg;
 		this.detailMsg = detailMsg;
@@ -61,8 +61,8 @@ public enum EdgeResponseCode implements IResponseCode {
 		return detailMsg;
 	}
 
-	public static EdgeResponseCode codeOf(int code) {
-        for (EdgeResponseCode value : values()) {
+	public static TranscationResponseCode codeOf(int code) {
+        for (TranscationResponseCode value : values()) {
             if (value.code == code) {
                 return value;
             }

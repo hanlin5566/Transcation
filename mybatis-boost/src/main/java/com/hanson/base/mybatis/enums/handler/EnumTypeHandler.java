@@ -9,7 +9,7 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.hzcf.base.enums.EnumType;
+import com.hanson.base.enums.EnumType;
 
 /**
  * Create by hanlin on 2017年11月7日

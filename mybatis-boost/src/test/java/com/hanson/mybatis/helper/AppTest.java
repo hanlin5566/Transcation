@@ -1,4 +1,4 @@
-package com.hzcf.mybatis.helper;
+package com.hanson.mybatis.helper;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
