@@ -24,16 +24,16 @@ public interface UserAccountRecordMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into tb_user_account_record (system_user_id, money, ",
+        "insert into tb_user_account_record (user_id, money, ",
         "balance, business_type, ",
         "version, create_uid, ",
         "update_uid, create_time, ",
         "update_time, data_status)",
-        "values (#{systemUserId,jdbcType=INTEGER}, #{money,jdbcType=BIGINT}, ",
+        "values (#{userId,jdbcType=INTEGER}, #{money,jdbcType=BIGINT}, ",
         "#{balance,jdbcType=BIGINT}, #{businessType,jdbcType=TINYINT}, ",
         "#{version,jdbcType=TINYINT}, #{createUid,jdbcType=INTEGER}, ",
-        "#{updateUid,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, ",
-        "#{updateTime,jdbcType=DATE}, #{dataStatus,jdbcType=INTEGER})"
+        "#{updateUid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, ",
+        "#{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=TINYINT})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(UserAccountRecord record);
@@ -45,54 +45,54 @@ public interface UserAccountRecordMapper {
     @SelectProvider(type=UserAccountRecordSqlProvider.class, method="selectByExample")
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="system_user_id", property="systemUserId", jdbcType=JdbcType.INTEGER),
+        @Result(column="user_id", property="userId", jdbcType=JdbcType.INTEGER),
         @Result(column="money", property="money", jdbcType=JdbcType.BIGINT),
         @Result(column="balance", property="balance", jdbcType=JdbcType.BIGINT),
         @Result(column="business_type", property="businessType", jdbcType=JdbcType.TINYINT),
         @Result(column="version", property="version", jdbcType=JdbcType.TINYINT),
         @Result(column="create_uid", property="createUid", jdbcType=JdbcType.INTEGER),
         @Result(column="update_uid", property="updateUid", jdbcType=JdbcType.INTEGER),
-        @Result(column="create_time", property="createTime", jdbcType=JdbcType.DATE),
-        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.DATE),
-        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.INTEGER)
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.TINYINT)
     })
     List<UserAccountRecord> selectByExampleWithRowbounds(UserAccountRecordExample example, RowBounds rowBounds);
 
     @SelectProvider(type=UserAccountRecordSqlProvider.class, method="selectByExample")
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="system_user_id", property="systemUserId", jdbcType=JdbcType.INTEGER),
+        @Result(column="user_id", property="userId", jdbcType=JdbcType.INTEGER),
         @Result(column="money", property="money", jdbcType=JdbcType.BIGINT),
         @Result(column="balance", property="balance", jdbcType=JdbcType.BIGINT),
         @Result(column="business_type", property="businessType", jdbcType=JdbcType.TINYINT),
         @Result(column="version", property="version", jdbcType=JdbcType.TINYINT),
         @Result(column="create_uid", property="createUid", jdbcType=JdbcType.INTEGER),
         @Result(column="update_uid", property="updateUid", jdbcType=JdbcType.INTEGER),
-        @Result(column="create_time", property="createTime", jdbcType=JdbcType.DATE),
-        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.DATE),
-        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.INTEGER)
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.TINYINT)
     })
     List<UserAccountRecord> selectByExample(UserAccountRecordExample example);
 
     @Select({
         "select",
-        "id, system_user_id, money, balance, business_type, version, create_uid, update_uid, ",
+        "id, user_id, money, balance, business_type, version, create_uid, update_uid, ",
         "create_time, update_time, data_status",
         "from tb_user_account_record",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="system_user_id", property="systemUserId", jdbcType=JdbcType.INTEGER),
+        @Result(column="user_id", property="userId", jdbcType=JdbcType.INTEGER),
         @Result(column="money", property="money", jdbcType=JdbcType.BIGINT),
         @Result(column="balance", property="balance", jdbcType=JdbcType.BIGINT),
         @Result(column="business_type", property="businessType", jdbcType=JdbcType.TINYINT),
         @Result(column="version", property="version", jdbcType=JdbcType.TINYINT),
         @Result(column="create_uid", property="createUid", jdbcType=JdbcType.INTEGER),
         @Result(column="update_uid", property="updateUid", jdbcType=JdbcType.INTEGER),
-        @Result(column="create_time", property="createTime", jdbcType=JdbcType.DATE),
-        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.DATE),
-        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.INTEGER)
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="data_status", property="dataStatus", jdbcType=JdbcType.TINYINT)
     })
     UserAccountRecord selectByPrimaryKey(Integer id);
 
@@ -101,16 +101,16 @@ public interface UserAccountRecordMapper {
 
     @Update({
         "update tb_user_account_record",
-        "set system_user_id = #{systemUserId,jdbcType=INTEGER},",
+        "set user_id = #{userId,jdbcType=INTEGER},",
           "money = #{money,jdbcType=BIGINT},",
           "balance = #{balance,jdbcType=BIGINT},",
           "business_type = #{businessType,jdbcType=TINYINT},",
           "version = #{version,jdbcType=TINYINT},",
           "create_uid = #{createUid,jdbcType=INTEGER},",
           "update_uid = #{updateUid,jdbcType=INTEGER},",
-          "create_time = #{createTime,jdbcType=DATE},",
-          "update_time = #{updateTime,jdbcType=DATE},",
-          "data_status = #{dataStatus,jdbcType=INTEGER}",
+          "create_time = #{createTime,jdbcType=TIMESTAMP},",
+          "update_time = #{updateTime,jdbcType=TIMESTAMP},",
+          "data_status = #{dataStatus,jdbcType=TINYINT}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(UserAccountRecord record);

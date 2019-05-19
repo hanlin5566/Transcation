@@ -14,7 +14,7 @@ public class UserSqlProvider {
         sql.INSERT_INTO("tb_user");
         
         if (record.getGender() != null) {
-            sql.VALUES("gender", "#{gender,jdbcType=VARCHAR}");
+            sql.VALUES("gender", "#{gender,jdbcType=TINYINT}");
         }
         
         if (record.getUserName() != null) {
@@ -30,7 +30,7 @@ public class UserSqlProvider {
         }
         
         if (record.getDeptId() != null) {
-            sql.VALUES("dept_id", "#{deptId,jdbcType=VARCHAR}");
+            sql.VALUES("dept_id", "#{deptId,jdbcType=INTEGER}");
         }
         
         if (record.getUserPwd() != null) {
@@ -58,7 +58,7 @@ public class UserSqlProvider {
         }
         
         if (record.getCompanyCode() != null) {
-            sql.VALUES("company_code", "#{companyCode,jdbcType=VARCHAR}");
+            sql.VALUES("company_code", "#{companyCode,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUid() != null) {
@@ -70,11 +70,11 @@ public class UserSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.VALUES("create_time", "#{createTime,jdbcType=DATE}");
+            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.VALUES("update_time", "#{updateTime,jdbcType=DATE}");
+            sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDataStatus() != null) {
@@ -123,7 +123,7 @@ public class UserSqlProvider {
         sql.UPDATE("tb_user");
         
         if (record.getGender() != null) {
-            sql.SET("gender = #{gender,jdbcType=VARCHAR}");
+            sql.SET("gender = #{gender,jdbcType=TINYINT}");
         }
         
         if (record.getUserName() != null) {
@@ -139,7 +139,7 @@ public class UserSqlProvider {
         }
         
         if (record.getDeptId() != null) {
-            sql.SET("dept_id = #{deptId,jdbcType=VARCHAR}");
+            sql.SET("dept_id = #{deptId,jdbcType=INTEGER}");
         }
         
         if (record.getUserPwd() != null) {
@@ -167,7 +167,7 @@ public class UserSqlProvider {
         }
         
         if (record.getCompanyCode() != null) {
-            sql.SET("company_code = #{companyCode,jdbcType=VARCHAR}");
+            sql.SET("company_code = #{companyCode,jdbcType=INTEGER}");
         }
         
         if (record.getCreateUid() != null) {
@@ -179,11 +179,11 @@ public class UserSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.SET("create_time = #{createTime,jdbcType=DATE}");
+            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.SET("update_time = #{updateTime,jdbcType=DATE}");
+            sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDataStatus() != null) {

@@ -5,14 +5,15 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hanson.base.annotation.AutoWriteParam;
 import com.hanson.base.enums.DataStatus;
+import com.hanson.base.mybatis.serializer.DatePattern;
 import com.hzcf.base.serializer.EnumJsonSerializer;
-import com.hzcf.base.util.DateUtils;
-
 /**
  * tb_user_account 
- * @author huhanlin 2019-01-30
+ * @author huhanlin 2019-01-31
  */
+@AutoWriteParam
 public class UserAccount {
     /**
      * 
@@ -22,7 +23,7 @@ public class UserAccount {
     /**
      * 
      */
-    private Integer systemUserId;
+    private Integer userId;
 
     /**
      * 账户金额
@@ -47,13 +48,13 @@ public class UserAccount {
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = DateUtils.ISO_DATE)
+    @DateTimeFormat(pattern = DatePattern.ISO_DATE)
     private Date createTime;
 
     /**
      * 修改时间
      */
-    @DateTimeFormat(pattern = DateUtils.ISO_DATE)
+    @DateTimeFormat(pattern = DatePattern.ISO_DATE)
     private Date updateTime;
 
     /**
@@ -80,18 +81,18 @@ public class UserAccount {
 
     /**
      * 
-     * @return system_user_id 
+     * @return user_id 
      */
-    public Integer getSystemUserId() {
-        return systemUserId;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * 
-     * @param systemUserId 
+     * @param userId 
      */
-    public void setSystemUserId(Integer systemUserId) {
-        this.systemUserId = systemUserId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**

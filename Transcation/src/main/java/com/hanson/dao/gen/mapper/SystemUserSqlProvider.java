@@ -1,36 +1,66 @@
 package com.hanson.dao.gen.mapper;
 
-import com.hanson.dao.gen.entity.UserAccountRecord;
-import com.hanson.dao.gen.entity.UserAccountRecordExample.Criteria;
-import com.hanson.dao.gen.entity.UserAccountRecordExample.Criterion;
-import com.hanson.dao.gen.entity.UserAccountRecordExample;
 import java.util.List;
+
 import org.apache.ibatis.jdbc.SQL;
 
-public class UserAccountRecordSqlProvider {
+import com.hanson.dao.gen.entity.SystemUser;
+import com.hanson.dao.gen.entity.SystemUserExample;
+import com.hanson.dao.gen.entity.SystemUserExample.Criteria;
+import com.hanson.dao.gen.entity.SystemUserExample.Criterion;
 
-    public String insertSelective(UserAccountRecord record) {
+public class SystemUserSqlProvider {
+
+    public String insertSelective(SystemUser record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("tb_user_account_record");
+        sql.INSERT_INTO("system_user");
         
-        if (record.getUserId() != null) {
-            sql.VALUES("user_id", "#{userId,jdbcType=INTEGER}");
+        if (record.getSex() != null) {
+            sql.VALUES("sex", "#{sex,jdbcType=VARCHAR}");
         }
         
-        if (record.getMoney() != null) {
-            sql.VALUES("money", "#{money,jdbcType=BIGINT}");
+        if (record.getUserName() != null) {
+            sql.VALUES("user_name", "#{userName,jdbcType=VARCHAR}");
         }
         
-        if (record.getBalance() != null) {
-            sql.VALUES("balance", "#{balance,jdbcType=BIGINT}");
+        if (record.getApiName() != null) {
+            sql.VALUES("api_name", "#{apiName,jdbcType=VARCHAR}");
         }
         
-        if (record.getBusinessType() != null) {
-            sql.VALUES("business_type", "#{businessType,jdbcType=TINYINT}");
+        if (record.getApiPwd() != null) {
+            sql.VALUES("api_pwd", "#{apiPwd,jdbcType=VARCHAR}");
         }
         
-        if (record.getVersion() != null) {
-            sql.VALUES("version", "#{version,jdbcType=TINYINT}");
+        if (record.getDeptId() != null) {
+            sql.VALUES("dept_id", "#{deptId,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserPwd() != null) {
+            sql.VALUES("user_pwd", "#{userPwd,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserSalt() != null) {
+            sql.VALUES("user_salt", "#{userSalt,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserEmail() != null) {
+            sql.VALUES("user_email", "#{userEmail,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserTel() != null) {
+            sql.VALUES("user_tel", "#{userTel,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserAddress() != null) {
+            sql.VALUES("user_address", "#{userAddress,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserPhone() != null) {
+            sql.VALUES("user_phone", "#{userPhone,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCompanyCode() != null) {
+            sql.VALUES("company_code", "#{companyCode,jdbcType=VARCHAR}");
         }
         
         if (record.getCreateUid() != null) {
@@ -42,38 +72,45 @@ public class UserAccountRecordSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
+            sql.VALUES("create_time", "#{createTime,jdbcType=DATE}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
+            sql.VALUES("update_time", "#{updateTime,jdbcType=DATE}");
         }
         
         if (record.getDataStatus() != null) {
-            sql.VALUES("data_status", "#{dataStatus,jdbcType=TINYINT}");
+            sql.VALUES("data_status", "#{dataStatus,jdbcType=INTEGER}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExample(UserAccountRecordExample example) {
+    public String selectByExample(SystemUserExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("user_id");
-        sql.SELECT("money");
-        sql.SELECT("balance");
-        sql.SELECT("business_type");
-        sql.SELECT("version");
+        sql.SELECT("sex");
+        sql.SELECT("user_name");
+        sql.SELECT("api_name");
+        sql.SELECT("api_pwd");
+        sql.SELECT("dept_id");
+        sql.SELECT("user_pwd");
+        sql.SELECT("user_salt");
+        sql.SELECT("user_email");
+        sql.SELECT("user_tel");
+        sql.SELECT("user_address");
+        sql.SELECT("user_phone");
+        sql.SELECT("company_code");
         sql.SELECT("create_uid");
         sql.SELECT("update_uid");
         sql.SELECT("create_time");
         sql.SELECT("update_time");
         sql.SELECT("data_status");
-        sql.FROM("tb_user_account_record");
+        sql.FROM("system_user");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -83,28 +120,56 @@ public class UserAccountRecordSqlProvider {
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(UserAccountRecord record) {
+    public String updateByPrimaryKeySelective(SystemUser record) {
         SQL sql = new SQL();
-        sql.UPDATE("tb_user_account_record");
+        sql.UPDATE("system_user");
         
-        if (record.getUserId() != null) {
-            sql.SET("user_id = #{userId,jdbcType=INTEGER}");
+        if (record.getSex() != null) {
+            sql.SET("sex = #{sex,jdbcType=VARCHAR}");
         }
         
-        if (record.getMoney() != null) {
-            sql.SET("money = #{money,jdbcType=BIGINT}");
+        if (record.getUserName() != null) {
+            sql.SET("user_name = #{userName,jdbcType=VARCHAR}");
         }
         
-        if (record.getBalance() != null) {
-            sql.SET("balance = #{balance,jdbcType=BIGINT}");
+        if (record.getApiName() != null) {
+            sql.SET("api_name = #{apiName,jdbcType=VARCHAR}");
         }
         
-        if (record.getBusinessType() != null) {
-            sql.SET("business_type = #{businessType,jdbcType=TINYINT}");
+        if (record.getApiPwd() != null) {
+            sql.SET("api_pwd = #{apiPwd,jdbcType=VARCHAR}");
         }
         
-        if (record.getVersion() != null) {
-            sql.SET("version = #{version,jdbcType=TINYINT}");
+        if (record.getDeptId() != null) {
+            sql.SET("dept_id = #{deptId,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserPwd() != null) {
+            sql.SET("user_pwd = #{userPwd,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserSalt() != null) {
+            sql.SET("user_salt = #{userSalt,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserEmail() != null) {
+            sql.SET("user_email = #{userEmail,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserTel() != null) {
+            sql.SET("user_tel = #{userTel,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserAddress() != null) {
+            sql.SET("user_address = #{userAddress,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getUserPhone() != null) {
+            sql.SET("user_phone = #{userPhone,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCompanyCode() != null) {
+            sql.SET("company_code = #{companyCode,jdbcType=VARCHAR}");
         }
         
         if (record.getCreateUid() != null) {
@@ -116,15 +181,15 @@ public class UserAccountRecordSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
+            sql.SET("create_time = #{createTime,jdbcType=DATE}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
+            sql.SET("update_time = #{updateTime,jdbcType=DATE}");
         }
         
         if (record.getDataStatus() != null) {
-            sql.SET("data_status = #{dataStatus,jdbcType=TINYINT}");
+            sql.SET("data_status = #{dataStatus,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -132,7 +197,7 @@ public class UserAccountRecordSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, UserAccountRecordExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, SystemUserExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

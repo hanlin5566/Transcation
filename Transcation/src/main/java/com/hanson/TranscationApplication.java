@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.hanson.**.**.mapper")
 public class TranscationApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(TranscationApplication.class, args);
 	}
-
 }
 

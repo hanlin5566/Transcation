@@ -1,20 +1,20 @@
 package com.hanson.dao.gen.entity;
 
-import com.hanson.base.enums.DataStatus;
-import com.hanson.base.enums.Gender;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hanson.base.annotation.AutoWriteParam;
-import com.hanson.base.mybatis.serializer.DatePattern;
+import com.hanson.base.enums.DataStatus;
+import com.hanson.base.enums.Gender;
 import com.hzcf.base.serializer.EnumJsonSerializer;
+import com.hzcf.base.util.DateUtils;
+
 /**
- * tb_user 
- * @author huhanlin 2019-01-31
+ * system_user 
+ * @author huhanlin 2019-01-30
  */
-@AutoWriteParam
-public class User {
+public class SystemUser {
     /**
      * system_user主键
      */
@@ -24,7 +24,7 @@ public class User {
      * 性别 0
      */
     @JsonSerialize(using = EnumJsonSerializer.class)
-    private Gender gender;
+    private Gender sex;
 
     /**
      * 用户名称
@@ -44,7 +44,7 @@ public class User {
     /**
      * 部门Id
      */
-    private Integer deptId;
+    private String deptId;
 
     /**
      * 用户密码
@@ -79,7 +79,7 @@ public class User {
     /**
      * 公司Code
      */
-    private Integer companyCode;
+    private String companyCode;
 
     /**
      * 创建人
@@ -94,13 +94,13 @@ public class User {
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = DatePattern.ISO_DATE)
+    @DateTimeFormat(pattern = DateUtils.ISO_DATE)
     private Date createTime;
 
     /**
      * 修改时间
      */
-    @DateTimeFormat(pattern = DatePattern.ISO_DATE)
+    @DateTimeFormat(pattern = DateUtils.ISO_DATE)
     private Date updateTime;
 
     /**
@@ -129,16 +129,16 @@ public class User {
      * 性别 0
      * @return gender 性别 0
      */
-    public Gender getGender() {
-        return gender;
+    public Gender getSex() {
+        return sex;
     }
 
     /**
      * 性别 0
      * @param gender 性别 0
      */
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setSex(Gender sex) {
+        this.sex = sex;
     }
 
     /**
@@ -193,7 +193,7 @@ public class User {
      * 部门Id
      * @return dept_id 部门Id
      */
-    public Integer getDeptId() {
+    public String getDeptId() {
         return deptId;
     }
 
@@ -201,8 +201,8 @@ public class User {
      * 部门Id
      * @param deptId 部门Id
      */
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
+    public void setDeptId(String deptId) {
+        this.deptId = deptId == null ? null : deptId.trim();
     }
 
     /**
@@ -305,7 +305,7 @@ public class User {
      * 公司Code
      * @return company_code 公司Code
      */
-    public Integer getCompanyCode() {
+    public String getCompanyCode() {
         return companyCode;
     }
 
@@ -313,8 +313,8 @@ public class User {
      * 公司Code
      * @param companyCode 公司Code
      */
-    public void setCompanyCode(Integer companyCode) {
-        this.companyCode = companyCode;
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode == null ? null : companyCode.trim();
     }
 
     /**

@@ -8,8 +8,8 @@ import com.hzcf.base.enums.EnumType;
  **/
 public enum AccountBusinessType implements EnumType {
 	UNKNOWN(0, "未知"),
-	MALE(1, "充值"),
-	FEMALE(2, "扣款"),
+	RECHARGE(1, "充值"),
+	PAYMENT(2, "扣款"),
     ;
 
 

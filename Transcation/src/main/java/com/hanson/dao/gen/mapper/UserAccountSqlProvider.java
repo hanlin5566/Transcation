@@ -13,8 +13,8 @@ public class UserAccountSqlProvider {
         SQL sql = new SQL();
         sql.INSERT_INTO("tb_user_account");
         
-        if (record.getSystemUserId() != null) {
-            sql.VALUES("system_user_id", "#{systemUserId,jdbcType=INTEGER}");
+        if (record.getUserId() != null) {
+            sql.VALUES("user_id", "#{userId,jdbcType=INTEGER}");
         }
         
         if (record.getBalance() != null) {
@@ -34,15 +34,15 @@ public class UserAccountSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.VALUES("create_time", "#{createTime,jdbcType=DATE}");
+            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.VALUES("update_time", "#{updateTime,jdbcType=DATE}");
+            sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDataStatus() != null) {
-            sql.VALUES("data_status", "#{dataStatus,jdbcType=INTEGER}");
+            sql.VALUES("data_status", "#{dataStatus,jdbcType=TINYINT}");
         }
         
         return sql.toString();
@@ -55,7 +55,7 @@ public class UserAccountSqlProvider {
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("system_user_id");
+        sql.SELECT("user_id");
         sql.SELECT("balance");
         sql.SELECT("version");
         sql.SELECT("create_uid");
@@ -77,8 +77,8 @@ public class UserAccountSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("tb_user_account");
         
-        if (record.getSystemUserId() != null) {
-            sql.SET("system_user_id = #{systemUserId,jdbcType=INTEGER}");
+        if (record.getUserId() != null) {
+            sql.SET("user_id = #{userId,jdbcType=INTEGER}");
         }
         
         if (record.getBalance() != null) {
@@ -98,15 +98,15 @@ public class UserAccountSqlProvider {
         }
         
         if (record.getCreateTime() != null) {
-            sql.SET("create_time = #{createTime,jdbcType=DATE}");
+            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getUpdateTime() != null) {
-            sql.SET("update_time = #{updateTime,jdbcType=DATE}");
+            sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDataStatus() != null) {
-            sql.SET("data_status = #{dataStatus,jdbcType=INTEGER}");
+            sql.SET("data_status = #{dataStatus,jdbcType=TINYINT}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

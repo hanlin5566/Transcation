@@ -1,4 +1,4 @@
-package com.hanson.service.gen;
+package com.hanson.service;
 
 import java.util.List;
 
