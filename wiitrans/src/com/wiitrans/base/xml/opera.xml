@@ -1,9 +1,0 @@
-<bundle name="operaTopo" type="class" localcluster="true" debug="false">
-	<classpath url="/root/wiitrans/OperationBundle/bin" />
-	<jarpath url="file:/opt/wiitrans/bundle/opera.jar" />
-	<classname url="com.wiitrans.opt.bundle.Bundle" />
-	<spout count="1" />
-	<bolt name="search" count="2" />
-	<bolt name="persistence" count="1" />
-	<worker num="2" />
-</bundle>

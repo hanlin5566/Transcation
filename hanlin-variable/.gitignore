@@ -1,7 +1,0 @@
-.classpath
-*.log
-*.project
-*.gitattributes
-/settings/
-/target/
-.settings

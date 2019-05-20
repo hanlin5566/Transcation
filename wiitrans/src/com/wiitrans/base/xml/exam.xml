@@ -1,9 +1,0 @@
-<bundle name="examTopo" type="class" localcluster="true" debug="false">
-	<classpath url="/root/wiitrans/ExamBundle/bin" />
-	<jarpath url="file:/opt/wiitrans/bundle/exam.jar" />
-	<classname url="com.wiitrans.exam.bundle.Bundle" />
-	<spout count="1" />
-	<bolt name="exam" count="1" />
-	<worker num="1" />
-	<exam count="10" threshold="5" max="7" timeout="30" month_times="3"/>
-</bundle>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wiitrans.base.db.model.MessageUserBeanMapper">
-	<insert id="Insert" parameterType="com.wiitrans.base.db.model.MessageUserBean">
-		INSERT INTO `message_user`(`user_id`,`message`,`create_time`,`read`,`date_type`)
-		VALUES(#{user_id},#{message},unix_timestamp(now()),0,#{date_type});
-	</insert>
-</mapper>

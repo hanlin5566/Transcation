@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wiitrans.base.db.model.TranslatorFinanceBeanMapper">
-	<insert id="Insert" parameterType="com.wiitrans.base.db.model.TranslatorFinanceBean">
-		INSERT INTO `translator_finance`(`translator_id`,`type`,`currency_id`,`income`,`expense`,`account`,`remark`,`create_time`)
-		VALUES(#{translator_id},#{type},#{currency_id},#{income},#{expense},#{account},#{remark},#{create_time});
-	</insert>
-</mapper>

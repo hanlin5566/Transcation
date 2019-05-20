@@ -1,7 +1,0 @@
-<bundle name="stateTopo" type="class" localcluster="true" debug="false">
-	<classpath url="/root/wiitrans/StateBundle/bin" />
-	<jarpath url="file:/opt/wiitrans/bundle/state.jar" />
-	<classname url="com.wiitrans.state.bundle.Bundle" />
-	<online listcount="10" />
-	<monitor cycle="60" timeout="300" />
-</bundle>

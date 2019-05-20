@@ -1,6 +1,0 @@
-<bundle name="apiTopo" type="class" localcluster="true" debug="false">
-	<classpath url="/root/wiitrans/ApiBundle/bin" />
-	<jarpath url="file:/opt/wiitrans/bundle/api.jar" />
-	<classname url="com.wiitrans.api.bundle.Bundle" />
-	<tempfilepath url="/root/Desktop/api/" />
-</bundle>
