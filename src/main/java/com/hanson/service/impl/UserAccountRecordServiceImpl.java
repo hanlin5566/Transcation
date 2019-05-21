@@ -17,8 +17,8 @@ import com.hanson.dao.gen.mapper.UserAccountMapper;
 import com.hanson.dao.gen.mapper.UserAccountRecordMapper;
 import com.hanson.dao.gen.mapper.ext.UserAccountRecordExtMapper;
 import com.hanson.service.UserAccountRecordService;
-import com.hzcf.base.exception.ServiceException;
-import com.hzcf.base.util.BeanUtils;
+import com.hanson.base.exception.ServiceException;
+import com.hanson.base.util.BeanUtils;
 
 /**
  * Create by hanlin on 2019年1月30日

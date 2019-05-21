@@ -11,7 +11,7 @@ import com.hanson.dao.gen.entity.User;
 import com.hanson.dao.gen.entity.UserExample;
 import com.hanson.dao.gen.mapper.UserMapper;
 import com.hanson.service.UserService;
-import com.hzcf.base.util.BeanUtils;
+import com.hanson.base.util.BeanUtils;
 
 /**
  * Create by hanlin on 2019年1月30日

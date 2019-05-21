@@ -34,7 +34,7 @@ public class AutoWriteParamAspect {
 	/**
 	 * ~第一个 * 代表任意修饰符及任意返回值. ~第二个 * 任意包名 ~第三个 * 代表任意方法. ~第四个 * 定义子包 ~第五个(..) 任意方法 ~
 	 * ..匹配任意数量的参数.
-	 * 定义拦截规则：拦截com.hzcf.operation.controller包下面的所有类中，有@RequestMapping注解的方法。
+	 * 定义拦截规则：拦截com.hanson.operation.controller包下面的所有类中，有@RequestMapping注解的方法。
 	 */
 	@Pointcut("execution(* com.hanson.controller..*(..)) and @annotation(org.springframework.web.bind.annotation.RequestMapping)")
 	public void addUserIdAspect() {

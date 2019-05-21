@@ -1,14 +1,13 @@
 package com.hanson.dao.gen.entity;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hanson.base.enums.DataStatus;
 import com.hanson.base.enums.Gender;
-import com.hzcf.base.serializer.EnumJsonSerializer;
-import com.hzcf.base.util.DateUtils;
+import com.hanson.base.serializer.EnumJsonSerializer;
+import com.hanson.base.util.DateUtils;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * system_user 

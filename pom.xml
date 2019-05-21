@@ -69,24 +69,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- 统一Http处理 -->
+
+		<!-- http处理增强 -->
 		<dependency>
-			<groupId>com.hzcf</groupId>
-			<artifactId>HJ-Http-Handler</artifactId>
+			<groupId>com.hanson</groupId>
+			<artifactId>http-handler</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<!-- 统一基础类 -->
+		<!-- 通用代码 -->
 		<dependency>
-			<groupId>com.hzcf</groupId>
-			<artifactId>HJ-MS-Common</artifactId>
+			<groupId>com.hanson</groupId>
+			<artifactId>common</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<!-- mybatis 增强 -->
+		<!-- mybatis增强 -->
 		<dependency>
 			<groupId>com.hanson</groupId>
 			<artifactId>mybatis-boost</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 

@@ -12,7 +12,7 @@ import com.hanson.dao.gen.entity.SystemUser;
 import com.hanson.dao.gen.entity.SystemUserExample;
 import com.hanson.dao.gen.mapper.SystemUserMapper;
 import com.hanson.service.SystemUserService;
-import com.hzcf.base.util.BeanUtils;
+import com.hanson.base.util.BeanUtils;
 
 /**
  * Create by hanlin on 2019年1月28日

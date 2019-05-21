@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hanson.base.annotation.AutoWriteParam;
 import com.hanson.base.enums.DataStatus;
 import com.hanson.base.mybatis.serializer.DatePattern;
-import com.hzcf.base.serializer.EnumJsonSerializer;
+import com.hanson.base.serializer.EnumJsonSerializer;
 /**
  * tb_user_account 
  * @author huhanlin 2019-01-31

@@ -9,11 +9,11 @@
 	
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<property name="APP_NAME" value="${spring.application.name}" />
-	<property name="HZCF_LOG_HOME" value="${logging.home}/${APP_NAME}/hzcf" />
+	<property name="HANSON_LOG_HOME" value="${logging.home}/${APP_NAME}/hanson" />
 	<property name="pattern" value="%date{ISO8601}\t%thread\t%level\t%logger\t%message%n"/>
 	
 	<!-- 控制台输出 -->
-	<appender name="HZCF_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="HANSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
             <pattern>${pattern}</pattern>
@@ -21,8 +21,8 @@
         </encoder>
 	</appender>
 	
-	<appender name="HZCF_TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HZCF_LOG_HOME}/trace/${APP_NAME}.log</file>
+	<appender name="HANSON_TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HANSON_LOG_HOME}/trace/${APP_NAME}.log</file>
         <!--过滤器,只打INFO级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>TRACE</level>
@@ -31,7 +31,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${HZCF_LOG_HOME}/trace/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${HANSON_LOG_HOME}/trace/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -43,8 +43,8 @@
         </encoder>
     </appender>
     
-	<appender name="HZCF_DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HZCF_LOG_HOME}/debug/${APP_NAME}.log</file>
+	<appender name="HANSON_DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HANSON_LOG_HOME}/debug/${APP_NAME}.log</file>
         <!--过滤器,只打INFO级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
@@ -53,7 +53,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${HZCF_LOG_HOME}/debug/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${HANSON_LOG_HOME}/debug/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -64,8 +64,8 @@
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-	<appender name="HZCF_INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HZCF_LOG_HOME}/info/${APP_NAME}.log</file>
+	<appender name="HANSON_INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HANSON_LOG_HOME}/info/${APP_NAME}.log</file>
         <!--过滤器,只打INFO级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
@@ -74,7 +74,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${HZCF_LOG_HOME}/info/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${HANSON_LOG_HOME}/info/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -86,8 +86,8 @@
         </encoder>
     </appender>
     
-    <appender name="HZCF_WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HZCF_LOG_HOME}/warn/${APP_NAME}.log</file>
+    <appender name="HANSON_WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HANSON_LOG_HOME}/warn/${APP_NAME}.log</file>
         <!--过滤器,只打INFO级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
@@ -96,7 +96,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${HZCF_LOG_HOME}/warn/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${HANSON_LOG_HOME}/warn/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -108,8 +108,8 @@
         </encoder>
     </appender>
     
-    <appender name="HZCF_ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HZCF_LOG_HOME}/error/${APP_NAME}.log</file>
+    <appender name="HANSON_ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HANSON_LOG_HOME}/error/${APP_NAME}.log</file>
         <!--过滤器,只打ERROR级别的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -118,7 +118,7 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 每天一归档 -->
-            <fileNamePattern>${HZCF_LOG_HOME}/error/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${HANSON_LOG_HOME}/error/${APP_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>60</maxHistory>
@@ -137,11 +137,11 @@
 	 -->
 	 <!-- 默认的日志输出级别为DEBUG，输出至控制台和文件 ，特殊定义logger如未设置相关属性也会继承root属性-->
 	<logger name="com.hanson" level="INFO" additivity="false">
-		<appender-ref ref="HZCF_STDOUT" />
-		<appender-ref ref="HZCF_TRACE_FILE" />
-		<appender-ref ref="HZCF_DEBUG_FILE" />
-		<appender-ref ref="HZCF_INFO_FILE" />
-		<appender-ref ref="HZCF_ERROR_FILE" />
-		<appender-ref ref="HZCF_WARN_FILE" />
+		<appender-ref ref="HANSON_STDOUT" />
+		<appender-ref ref="HANSON_TRACE_FILE" />
+		<appender-ref ref="HANSON_DEBUG_FILE" />
+		<appender-ref ref="HANSON_INFO_FILE" />
+		<appender-ref ref="HANSON_ERROR_FILE" />
+		<appender-ref ref="HANSON_WARN_FILE" />
 	</logger>
 </included>

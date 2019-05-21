@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hanson.base.annotation.AutoWriteParam;
 import com.hanson.base.mybatis.serializer.DatePattern;
-import com.hzcf.base.serializer.EnumJsonSerializer;
+import com.hanson.base.serializer.EnumJsonSerializer;
 /**
  * tb_user_account_record 
  * @author huhanlin 2019-01-31

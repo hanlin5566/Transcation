@@ -1,6 +1,6 @@
 package com.hanson.base.enums;
 
-import com.hzcf.base.enums.EnumType;
+import com.hanson.base.enums.EnumType;
 
 /**
  * Create by hanlin on 2017年11月6日

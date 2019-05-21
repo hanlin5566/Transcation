@@ -1,4 +1,4 @@
-package com.hzcf.transcations;
+package com.hanson.transcations;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
