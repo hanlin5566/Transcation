@@ -1,14 +1,10 @@
 package com.hanson.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.hanson.base.enums.DataStatus;
+import com.hanson.base.exception.ServiceException;
 import com.hanson.base.mybatis.pagination.entity.PageInfo;
 import com.hanson.base.response.AccountResponseCode;
+import com.hanson.base.util.BeanUtils;
 import com.hanson.dao.gen.entity.UserAccount;
 import com.hanson.dao.gen.entity.UserAccountExample;
 import com.hanson.dao.gen.entity.UserAccountRecord;
@@ -17,8 +13,12 @@ import com.hanson.dao.gen.mapper.UserAccountMapper;
 import com.hanson.dao.gen.mapper.UserAccountRecordMapper;
 import com.hanson.dao.gen.mapper.ext.UserAccountRecordExtMapper;
 import com.hanson.service.UserAccountRecordService;
-import com.hanson.base.exception.ServiceException;
-import com.hanson.base.util.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Create by hanlin on 2019年1月30日
@@ -69,7 +69,7 @@ public class UserAccountRecordServiceImpl implements UserAccountRecordService {
 	/**
 	 * 通过判断version 乐观锁，充值，并未自旋失败之后未重试。
 	 */
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Integer rechargeCAS(UserAccountRecord userAccountRecord) {
 		// 根据userId 获取用户账户信息
